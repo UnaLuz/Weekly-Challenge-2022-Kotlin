@@ -24,13 +24,25 @@ fun main() {
     (1..100).forEach { println(fizzbuzz(it)) }
 }
 
+/**
+ * Recibe un entero
+ * Si es multiplo de 3 devuelve 'fizz'
+ * Si es multiplo de 5 devuelve 'buzz'
+ * Si es multiplo de ambos devuelve 'fizzbuzz'
+ * Si no es multiplo de ninguno devuelve el entero como string
+ */
 fun fizzbuzz(number: Int): String {
-    return when {
-        isMultipleOf(number, 3) && isMultipleOf(number, 5) -> "fizzbuzz"
-        isMultipleOf(number, 3) -> "fizz"
-        isMultipleOf(number, 5) -> "buzz"
-        else -> number.toString()
+    // Realizo un shifteo de 1 bit a la izquierda que equivale a multiplicar por 2 del resultado de si es multiplo de 3
+    return when(multipleOf3or5(number)){
+        3 -> "fizzbuzz"             // 1 + 1*2
+        2 -> "fizz"                 // 0 + 1*2
+        1 -> "buzz"                 // 1 + 0*2
+       	else -> number.toString()   // 0 + 0*2
     }
+    // Tenia ganas de complicarla un poco jeje
 }
 
-fun isMultipleOf(n: Int, m: Int) = n % m == 0
+fun multipleOf3or5(n: Int): Int = isMultipleOf(n, 5) + isMultipleOf(n, 3).shl(1)
+
+// Devuelve 1 si 'n' es multiplo de 'm' y 0 si no lo es
+fun isMultipleOf(n: Int, m: Int): Int = if(n % m == 0) 1 else 0
